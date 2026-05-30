@@ -25,7 +25,9 @@ function Signup() {
       });
 
       setMessage(response.data.message || "Account created successfully.");
-      navigate("/dashboard");
+      // save email locally so we can associate interest selections
+      localStorage.setItem('email', email);
+      navigate("/interests");
     } catch (error) {
       setMessage(error.response?.data?.error || error.message || "Signup failed.");
     }

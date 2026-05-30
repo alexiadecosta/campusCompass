@@ -10,6 +10,9 @@ function Landing() {
         <Link to="/signup">
           <button>Sign Up</button>
         </Link>
+        <Link to="/login" style={{ marginLeft: "10px" }}>
+          <button>Log In</button>
+        </Link>
         <Link to="/dashboard" style={{ marginLeft: "10px" }}>
           <button>View Recommendations</button>
         </Link>

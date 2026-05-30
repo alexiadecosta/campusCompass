@@ -6,7 +6,12 @@ function Dashboard() {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    api.get("/recommendations").then((res) => setResources(res.data));
+    const email = localStorage.getItem('email');
+    const path = email
+      ? `/recommendations?email=${encodeURIComponent(email)}`
+      : '/recommendations';
+
+    api.get(path).then((res) => setResources(res.data));
   }, []);
 
   return (
