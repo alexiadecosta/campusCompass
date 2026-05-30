@@ -11,6 +11,7 @@ function Dashboard() {
       ? `/recommendations?email=${encodeURIComponent(email)}`
       : '/recommendations';
 
+    // Fetch either all resources or recommendations filtered by the logged-in user's interests.
     api.get(path).then((res) => setResources(res.data));
   }, []);
 

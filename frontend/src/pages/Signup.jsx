@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 
 function Signup() {
+  // form fields for creating a new account
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ function Signup() {
   const handleSignup = async (event) => {
     event.preventDefault();
 
+    // frontend validation: enforce GMU email domain
     if (!email.endsWith("@gmu.edu")) {
       setMessage("Please use a GMU email address.");
       return;
@@ -25,7 +27,7 @@ function Signup() {
       });
 
       setMessage(response.data.message || "Account created successfully.");
-      // save email locally so we can associate interest selections
+      // Persist the logged-in user's email for interest selection and recommendations.
       localStorage.setItem('email', email);
       navigate("/interests");
     } catch (error) {

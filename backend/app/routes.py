@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import Resource, Student
 from app import db
 
+# Backend API blueprint for Campus Compass.
+# Provides user signup, login, interest selection, and recommendation endpoints.
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -11,6 +13,31 @@ def home():
 
 @main.route('/signup', methods=['POST'])
 def signup():
+    """
+    Create a new student account.
+
+    Expected request JSON:
+      {
+        "username": "string",
+        "email": "string",
+        "password": "string"
+      }
+
+    Validation:
+      - username, email, and password are required
+      - email must end with '@gmu.edu'
+      - email must be unique
+
+    Returns JSON on success:
+      {
+        "message": "Account created successfully",
+        "id": <integer>,
+        "email": "string",
+        "username": "string"
+      }
+
+    Returns JSON error responses with HTTP status codes 400 or 409.
+    """
     data = request.get_json() or {}
     username = data.get('username', '').strip()
     email = data.get('email', '').strip().lower()
@@ -40,6 +67,23 @@ def signup():
 
 @main.route('/login', methods=['POST'])
 def login():
+    """
+    Authenticate an existing student.
+
+    Expected request JSON:
+      {
+        "email": "string",
+        "password": "string"
+      }
+
+    Output on success:
+      {
+        "message": "Login successful",
+        "username": "string"
+      }
+
+    Returns 400 for missing credentials and 401 for invalid login.
+    """
     data = request.get_json() or {}
     email = data.get('email', '').strip().lower()
     password = data.get('password', '')
@@ -61,6 +105,14 @@ def login():
 
 @main.route('/tags')
 def tags():
+    """
+    Return a sorted list of unique resource tags.
+
+    Output:
+      ["tag1", "tag2", ...]
+
+    This endpoint is used by the frontend interest selection page.
+    """
     resources = Resource.query.all()
     tags_set = set()
     for r in resources:
@@ -74,6 +126,24 @@ def tags():
 
 @main.route('/set_interests', methods=['POST'])
 def set_interests():
+    """
+    Save a user's selected interests.
+
+    Expected request JSON:
+      {
+        "email": "string",
+        "interests": ["tag1", "tag2", ...]
+      }
+
+    Behavior:
+      - finds the student by email
+      - stores interests as a lowercase comma-separated string
+
+    Returns:
+      {"message": "Interests updated"}
+
+    Returns 400 for missing email and 404 if user is not found.
+    """
     data = request.get_json() or {}
     email = data.get('email', '').strip().lower()
     interests = data.get('interests', [])
@@ -92,7 +162,22 @@ def set_interests():
 
 @main.route('/recommendations')
 def recommendations():
-    # If an email query param is provided, filter resources by the user's interests
+    """
+    Return resource recommendations.
+
+    Query parameters:
+      email (optional): filter results by the user's saved interests.
+
+    Behavior:
+      - without email: returns all resources
+      - with email: returns only resources that share at least one tag with user interests
+
+    Output:
+      [
+        {"title": "resource title", "category": "category"},
+        ...
+      ]
+    """
     email = request.args.get('email')
     resources = Resource.query.all()
 

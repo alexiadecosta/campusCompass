@@ -1,3 +1,5 @@
+// Simple frontend API helper used by the React pages.
+// All requests are sent to the backend running on localhost:5000.
 const baseURL = "http://localhost:5000";
 
 async function handleResponse(response) {

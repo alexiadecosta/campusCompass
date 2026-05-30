@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 
 function Login() {
+  // login form state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -13,7 +14,7 @@ function Login() {
     try {
       const res = await api.post("/login", { email, password });
       setMessage(res.data.message || "Logged in");
-      // save email locally and navigate to dashboard on success
+      // Persist the logged-in user's email for personalization.
       localStorage.setItem('email', email);
       navigate("/dashboard");
     } catch (err) {

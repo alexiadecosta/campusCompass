@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 
 function Interests() {
+  // Available interest tags loaded from the backend
   const [tags, setTags] = useState([]);
+  // Selected tags stored as a Set for fast lookup
   const [selected, setSelected] = useState(new Set());
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch the list of available tags for interest selection.
+    // Expected response: ["tag1", "tag2", ...]
     api.get('/tags').then((res) => setTags(res.data));
   }, []);
 
