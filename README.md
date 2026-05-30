@@ -35,7 +35,7 @@ Team members need:
 2. Create a Python virtual environment and activate it:
 
 ```powershell
-cd c:\Users\lexma\campusCompass
+cd c:\Users\<username>\campusCompass
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
@@ -81,7 +81,7 @@ It should return a simple JSON message.
 1. Open a new terminal and navigate to the frontend folder:
 
 ```powershell
-cd c:\Users\lexma\campusCompass\frontend
+cd c:\Users\<username>\campusCompass\frontend
 ```
 
 2. Install frontend dependencies:
