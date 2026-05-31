@@ -16,6 +16,7 @@ function Login() {
       setMessage(res.data.message || "Logged in");
       // Persist the logged-in user's email for personalization.
       localStorage.setItem('email', email);
+	  localStorage.setItem('username', res.data.username);
       navigate("/dashboard");
     } catch (err) {
       setMessage(err.response?.data?.error || err.message || "Login failed");
