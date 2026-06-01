@@ -158,3 +158,5 @@ python backend/seed.py
 - If `npm start` fails, run `npm install` again and ensure Node.js is installed.
 - For GitHub collaboration, create feature branches and submit pull requests for changes.
 - This repository currently uses local `localStorage` to track the logged-in user's email for personalization.
+
+  pr test
