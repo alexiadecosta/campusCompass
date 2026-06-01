@@ -10,8 +10,8 @@ function Dashboard() {
   const categories = [
   { title: "Student Organizations", category: "student_orgs" },
   { title: "Food", category: "food" },
-  { title: "Campus Events", category: "events" },
-  { title: "Career Resources", category: "career" },
+  { title: <>Campus<br />Events</>, category: "events" },
+  { title: <>Career<br />Resources</>, category: "career" },
   { title: "Academic Resources", category: "academic" },
   { title: "Wellness & Support", category: "wellness" }
 ];
