@@ -15,12 +15,24 @@ async function handleResponse(response) {
   return { data };
 }
 
+function makeHeaders(extra = {}) {
+  const headers = { "Content-Type": "application/json", ...extra };
+  const token = localStorage.getItem('token');
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return headers;
+}
+
 export default {
-  get: (path) => fetch(`${baseURL}${path}`).then(handleResponse),
+  get: (path) => fetch(`${baseURL}${path}`, { headers: makeHeaders() }).then(handleResponse),
   post: (path, body) =>
     fetch(`${baseURL}${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: makeHeaders(),
       body: JSON.stringify(body),
+    }).then(handleResponse),
+  delete: (path) =>
+    fetch(`${baseURL}${path}`, {
+      method: "DELETE",
+      headers: makeHeaders(),
     }).then(handleResponse),
 };

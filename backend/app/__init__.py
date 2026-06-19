@@ -6,8 +6,14 @@ db = SQLAlchemy() #database
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'postgresql://postgres:password@localhost/campusCompass'
+    import os
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        'DATABASE_URL', 'postgresql://postgres:password@localhost/campusCompass'
+    )
+    # Secret key for token generation; set via env in production
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
+    # Session lifetime (seconds) default 1 day
+    app.config['TOKEN_EXPIRES'] = int(os.environ.get('TOKEN_EXPIRES', 86400))
     CORS(app)
     db.init_app(app)
 

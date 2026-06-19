@@ -29,6 +29,10 @@ function Signup() {
       setMessage(response.data.message || "Account created successfully.");
       // Persist the logged-in user's email for interest selection and recommendations.
       localStorage.setItem('email', email);
+      // backend returns a token for authenticated requests
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
       navigate("/interests");
     } catch (error) {
       setMessage(error.response?.data?.error || error.message || "Signup failed.");

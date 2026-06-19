@@ -7,6 +7,7 @@ function Interests() {
   const [tags, setTags] = useState([]);
   // Selected tags stored as a Set for fast lookup
   const [selected, setSelected] = useState(new Set());
+  const [classification, setClassification] = useState('freshman');
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Interests() {
     }
     try {
       const interests = Array.from(selected);
-      const res = await api.post('/set_interests', { email, interests });
+      const res = await api.post('/set_interests', { email, interests, classification });
       setMessage(res.data.message || 'Interests saved');
       navigate('/dashboard');
     } catch (err) {
@@ -55,6 +56,14 @@ function Interests() {
               {tag}
             </label>
           ))}
+        </div>
+        <div style={{ marginTop: '12px' }}>
+          <label>Student Type:</label>
+          <div>
+            <label><input type="radio" name="class" value="freshman" checked={classification==='freshman'} onChange={(e)=>setClassification(e.target.value)} /> Freshman</label>
+            <label style={{ marginLeft: '8px' }}><input type="radio" name="class" value="transfer" checked={classification==='transfer'} onChange={(e)=>setClassification(e.target.value)} /> Transfer</label>
+            <label style={{ marginLeft: '8px' }}><input type="radio" name="class" value="other" checked={classification==='other'} onChange={(e)=>setClassification(e.target.value)} /> Other</label>
+          </div>
         </div>
         <div style={{ marginTop: '12px' }}>
           <button type="submit">Save Interests</button>
